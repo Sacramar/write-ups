@@ -31,6 +31,8 @@ admin login
 then we need to use CVE:2019-9053 BUT this python2 script for my and you dont work properly i give you worked version for my python3 on kali this work
 
 Usage : python3 46635.py -u http://10.81.170.225/simple
+
+in RAW code looking normal for copy
 ___________________________________________________________
 #!/usr/bin/env python
 # Exploit Title: Unauthenticated SQL Injection on CMS Made Simple <= 2.2.9
@@ -220,13 +222,17 @@ if options.cracking:
 beautify_print()
 
 ___________________________________________________
+
+<img width="497" height="101" alt="изображение" src="https://github.com/user-attachments/assets/db6d339d-a51d-4d4c-a820-25f81877fbcf" />
+
 We found
 
-Password 
-Password salt
-name
-email — -dont needed
+Password.password salt.name
+|email <—-dont needed
+
 Connecting to ssh
+
+<img width="844" height="431" alt="изображение" src="https://github.com/user-attachments/assets/572ef5b0-3558-4bee-b09e-caea1cff74dd" />
 
 this 2 think how dont work properly for me and you because OpenSSh on server older then me and you use next comand for fix it
 
@@ -237,6 +243,9 @@ ssh -p 2222 \
 mitch@10.82.158.249
 
 Finding Flags and Prvilage escalation
+
+<img width="482" height="64" alt="изображение" src="https://github.com/user-attachments/assets/88c601ba-c0a9-4489-8393-bd0312f6c8c2" />
+
 $ ls
 user.txt
 $ cat user.txt 
