@@ -2,22 +2,36 @@ Tryhackme:SimpleCTF Writeup
 
 This writeup actual on 2026/01/06
 https://tryhackme.com/room/easyctf
+
 First -Recon
 
+<img width="765" height="606" alt="изображение" src="https://github.com/user-attachments/assets/7e1c476f-5ffc-472b-8e74-5c1fe1288ca7" />
+
 nmap scanning
+
 WEB Recon
+
+<img width="1280" height="696" alt="изображение" src="https://github.com/user-attachments/assets/17e120bf-dcea-461f-9ee9-b4aae6658e26" />
+
 this base path on ip
 
 use the(/FUZZ/gobuster/nikto) to looking around in site use worldlist for destination detection
 i am use nikto and find only /simple without /admin
+
+<img width="1280" height="696" alt="изображение" src="https://github.com/user-attachments/assets/581d5057-5478-45cf-b45e-a9a38ead2e46" />
+
+
 cms base path
+
+<img width="1280" height="696" alt="изображение" src="https://github.com/user-attachments/assets/25d93581-2ff5-46c9-820d-760fbb22ddb0" />
+
+
 admin login
 
 then we need to use CVE:2019-9053 BUT this python2 script for my and you dont work properly i give you worked version for my python3 on kali this work
 
 Usage : python3 46635.py -u http://10.81.170.225/simple
 ___________________________________________________________
-
 #!/usr/bin/env python
 # Exploit Title: Unauthenticated SQL Injection on CMS Made Simple <= 2.2.9
 # Date: 30–03–2019
@@ -204,6 +218,7 @@ if options.cracking:
  crack_password()
 
 beautify_print()
+
 ___________________________________________________
 We found
 
