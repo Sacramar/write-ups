@@ -236,11 +236,11 @@ Connecting to ssh
 
 this 2 think how dont work properly for me and you because OpenSSh on server older then me and you use next comand for fix it
 
-ssh -p 2222 \
--o KexAlgorithms=diffie-hellman-group14-sha1 \
--o HostKeyAlgorithms=ssh-rsa \
--o PubkeyAcceptedAlgorithms=ssh-rsa \
-mitch@10.82.158.249
+	ssh -p 2222 \
+	-o KexAlgorithms=diffie-hellman-group14-sha1 \
+	-o HostKeyAlgorithms=ssh-rsa \
+	-o PubkeyAcceptedAlgorithms=ssh-rsa \
+	mitch@10.82.158.249
 
 Finding Flags and Prvilage escalation
 
