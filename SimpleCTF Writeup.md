@@ -1,6 +1,6 @@
-Tryhackme:SimpleCTF Writeup
+Tryhackme:SimpleCTF Write-up
 
-This writeup actual on 2026/01/06
+This write-up actual on 2026/01/06
 https://tryhackme.com/room/easyctf
 
 First -Recon
@@ -74,5 +74,17 @@ We been root user
 
 	cd root
 	root@Machine:/root# cat root.txt
+**Found vulnerability**  
+	http://10.82.158.249/simple/  
+	CMS Made simple  
+	CVE:2019-9053 CMS Made Simple up to 2.2.8 News m1_idlist Time-Based sql injection  
+	CVSS v4.0 Score: 7.3 / High   
+	CVSS:4.0/AV:L/AC:H/AT:P/PR:L/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:P/MAV:L/MAC:H/MAT:P/MPR:L/MUI:N/AU:N/V:D/RE:H  
+Found admin user credentinals from cms admin path login and SSH login form  
+
+**Vim GTFOBins exploit**  CVSS v4.0 Score: 8.8 / High ⊕ CVSS v4.0 Score: 8.8  
+	CVSS:4.0/AV:L/AC:H/AT:P/PR:L/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:A/MAV:L/MAC:H/MAT:P/MPR:L/MUI:N/AU:N/V:D/RE:H  
+Get root user  
+
 P.S
-And we done machine thanks for reading this me first writeup i wrote them becouse other is so old and dont helpful
+And we done machine thanks for reading this me first write-up i wrote them because other is so old and dont helpful
