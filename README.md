@@ -1,18 +1,18 @@
-# Мои Write-up'ы  
+# My Write-up
 
 ## TryHackMe  
 1)[SimpleCTF](SimpleCTF%20Writeup.md)  
-2)Smag Grotto       (в процессе)   
-3)Basic Pentesting  (в процессе)  
-4)Pickle Rick       (в процессе)  
-5)Neighbour         (в процессе)  
-6)CyberHeroes       (в процессе)  
-7)Oracle 9          (в процессе)  
-8)Billing           (в процессе)  
-9)The Phishing Pond (в процессе)   
-10)Agent Sudo       (в процессе)  
-11)RootMe           (в процессе)  
-12)GLITCH           (в процессе)  
+2)Smag Grotto       (In progress)   
+3)Basic Pentesting  (In progress)  
+4)Pickle Rick       (In progress)  
+5)Neighbour         (In progress)  
+6)CyberHeroes       (In progress)  
+7)Oracle 9          (In progress)  
+8)Billing           (In progress)  
+9)The Phishing Pond (In progress)   
+10)Agent Sudo       (In progress)  
+11)RootMe           (In progress)  
+12)GLITCH           (In progress)  
 
 ## HackTheBox  
-Временно не будет  
+Temporaly unavailable  
