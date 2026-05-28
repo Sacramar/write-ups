@@ -91,7 +91,7 @@ CVE-2019-9053 (SQL Injection in CMS Made Simple) "Immediately update the CMS to 
 
 Deprecated SSH algorithm (hmac-sha1)  "In the /etc/ssh/sshd_config file, allow only hmac-sha2-256 and newer algorithms."  
 
-Privilege escalation via sudo vim → "Remove user from sudo group or restrict allowed commands in sudoers using visudo."  
-  
+Privilege escalation via sudo vim "Remove user from sudo group or restrict allowed commands in sudoers using visudo."  
+    
 **P.S**
 And we done machine thanks for reading this me first write-up i wrote them because other is so old and dont helpful
