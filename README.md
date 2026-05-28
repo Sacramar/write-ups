@@ -9,11 +9,10 @@
 6)CyberHeroes       (в процессе)  
 7)Oracle 9          (в процессе)  
 8)Billing           (в процессе)  
-9)The Phishing Pond (в процессе)  
-10)Simple CTF       (в процессе)  
-11)Agent Sudo       (в процессе)  
-12)RootMe           (в процессе)  
-13)GLITCH           (в процессе)  
+9)The Phishing Pond (в процессе)   
+10)Agent Sudo       (в процессе)  
+11)RootMe           (в процессе)  
+12)GLITCH           (в процессе)  
 
 ## HackTheBox  
 Временно не будет  
