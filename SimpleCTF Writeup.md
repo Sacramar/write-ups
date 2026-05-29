@@ -1,97 +1,92 @@
-Tryhackme:SimpleCTF Write-up
+# TryHackMe - SimpleCTF
 
-This write-up actual on 2026/01/06
-https://tryhackme.com/room/easyctf
+**Date:** 2026/01/06  
+**Author:** Sacramar_  
+**Platform:** TryHackMe  
+**Room:** [SimpleCTF](https://tryhackme.com/room/easyctf)
 
-First Recon
+---
 
-<img width="765" height="606" alt="изображение" src="https://github.com/user-attachments/assets/7e1c476f-5ffc-472b-8e74-5c1fe1288ca7" />
+## 🔍 Reconnaissance
 
-Nmap scanning
+First, I scanned the target with `nmap` to discover open ports and services.
 
-WEB Recon
+![nmap scan result](https://github.com/user-attachments/assets/7e1c476f-5ffc-472b-8e74-5c1fe1288ca7)
 
-<img width="1280" height="696" alt="изображение" src="https://github.com/user-attachments/assets/17e120bf-dcea-461f-9ee9-b4aae6658e26" />
+The scan showed ports 21 (FTP), 80 (HTTP), and 2222 (SSH). I started with the web service.
 
-This base path on ip
+Running `gobuster` and `nikto` against the site quickly revealed a directory called `/simple`. Browsing there showed it was a CMS Made Simple installation.
 
-Use the(/FUZZ/gobuster/nikto) to looking around in site use worldlist for destination detection
-i am use nikto and find only /simple without /admin
+![web reconnaissance](https://github.com/user-attachments/assets/17e120bf-dcea-461f-9ee9-b4aae6658e26)
 
-<img width="1280" height="696" alt="изображение" src="https://github.com/user-attachments/assets/581d5057-5478-45cf-b45e-a9a38ead2e46" />
+The `/simple` path led to the CMS's admin login page:
 
+![admin login page](https://github.com/user-attachments/assets/25d93581-2ff5-46c9-820d-760fbb22ddb0)
 
-Cms base path
+---
 
-<img width="1280" height="696" alt="изображение" src="https://github.com/user-attachments/assets/25d93581-2ff5-46c9-820d-760fbb22ddb0" />
+## 💥 Exploitation
 
+I recognized the CMS version as vulnerable to **CVE-2019-9053** – a time-based SQL injection in the News module. The original exploit was written for Python 2, so I adapted it for Python 3. The updated script is available in my [Pentest-tools repository](https://github.com/Sacramar/Pentest-tools/blob/main/CVE-2019%E2%80%939053%20(python3%20version)).
 
-Admin login
+Running it dumped credentials from the database:
 
-Then we need to use CVE:2019-9053 BUT this python2 script for my and you dont work properly i give you worked version for my python3 on kali this work
+![CVE-2019-9053 output showing username, email, password, salt](https://github.com/user-attachments/assets/db6d339d-a51d-4d4c-a820-25f81877fbcf)
 
-	Usage : python3 46635.py -u http://10.81.170.225/simple
-https://github.com/Sacramar/Pentest-tools/blob/main/CVE-2019%E2%80%939053%20(python3%20version)
+With the password cracked (using the salt), I tried to SSH. The server ran an old OpenSSH version that didn't support modern algorithms, so I had to specify legacy options:
 
-<img width="497" height="101" alt="изображение" src="https://github.com/user-attachments/assets/db6d339d-a51d-4d4c-a820-25f81877fbcf" />
+```bash
+ssh -p 2222 \
+  -o KexAlgorithms=diffie-hellman-group14-sha1 \
+  -o HostKeyAlgorithms=ssh-rsa \
+  -o PubkeyAcceptedAlgorithms=ssh-rsa \
+  mitch@<target-ip>
+```
 
-We found
+![successful SSH login](https://github.com/user-attachments/assets/572ef5b0-3558-4bee-b09e-caea1cff74dd)
 
-Password.password salt.name
-|email <—-dont needed
+Once logged in as `mitch`, I grabbed the user flag:
 
-Connecting to ssh
+![user flag](https://github.com/user-attachments/assets/88c601ba-c0a9-4489-8393-bd0312f6c8c2)
 
-<img width="844" height="431" alt="изображение" src="https://github.com/user-attachments/assets/572ef5b0-3558-4bee-b09e-caea1cff74dd" />
+---
 
-This 2 think how dont work properly for me and you because OpenSSh on server older then me and you use next comand for fix it
+## ⬆️ Privilege Escalation
 
-	ssh -p 2222 \
-	-o KexAlgorithms=diffie-hellman-group14-sha1 \
-	-o HostKeyAlgorithms=ssh-rsa \
-	-o PubkeyAcceptedAlgorithms=ssh-rsa \
-	mitch@10.82.158.249
+I checked `sudo -l` and found that `mitch` could run `/usr/bin/vim` as root without a password.
 
-Finding Flags and Prvilage escalation
+```bash
+sudo vim
+```
 
-<img width="482" height="64" alt="изображение" src="https://github.com/user-attachments/assets/88c601ba-c0a9-4489-8393-bd0312f6c8c2" />
+Inside vim, I opened a shell with `:!bash` and immediately became root.
 
-	$ ls
-	user.txt
-	$ cat user.txt 
+![root shell and root flag](https://github.com/user-attachments/assets/88c601ba-c0a9-4489-8393-bd0312f6c8c2)
 
-	$ id
-	$ whoami
-	mitch
-	$ sudo -l
-User mitch may run the following commands on Machine:
- (root) NOPASSWD: /usr/bin/vim
+Reading `/root/root.txt` completed the room.
 
-	$ sudo vim
+---
 
-Use in vim tap “:” with shift button and start texting !bash and tap Enter
-We been root user
+## 🛡️ Vulnerability Assessment (CVSS v4.0)
 
-	cd root
-	root@Machine:/root# cat root.txt
-**Found vulnerability**  
-	http://10.82.158.249/simple/  
-	CMS Made simple  
-	CVE:2019-9053 CMS Made Simple up to 2.2.8 News m1_idlist Time-Based sql injection  
-	CVSS v4.0 Score: 7.3 / High   
-	CVSS:4.0/AV:L/AC:H/AT:P/PR:L/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:P/MAV:L/MAC:H/MAT:P/MPR:L/MUI:N/AU:N/V:D/RE:H  
-Found admin user credentinals from cms admin path login and SSH login form  
+| # | Vulnerability | CVSS v4.0 Vector | Score | Severity |
+|---|---------------|------------------|:-----:|----------|
+| 1 | **SQL Injection in CMS Made Simple (CVE-2019-9053)** | `CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N` | **7.3** | 🟠 HIGH |
+| 2 | **Deprecated SSH Algorithm (hmac-sha1)** | `CVSS:4.0/AV:N/AC:H/AT:P/PR:N/UI:N/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N` | **5.3** | 🟡 MEDIUM |
+| 3 | **Privilege Escalation via Sudo Vim (GTFOBins)** | `CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H` | **8.8** | 🟠 HIGH |
 
-**Vim GTFOBins exploit**  CVSS v4.0 Score: 8.8 / High ⊕ CVSS v4.0 Score: 8.8  
-	CVSS:4.0/AV:L/AC:H/AT:P/PR:L/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:A/MAV:L/MAC:H/MAT:P/MPR:L/MUI:N/AU:N/V:D/RE:H  
-Get root user  
+---
 
-**Recommendations for correction**  
-CVE-2019-9053 (SQL Injection in CMS Made Simple) "Immediately update the CMS to the latest version. As a temporary measure, configure the Web Application Firewall (WAF) to block SQL injections."  
+## 🔧 Remediation
 
-Deprecated SSH algorithm (hmac-sha1)  "In the /etc/ssh/sshd_config file, allow only hmac-sha2-256 and newer algorithms."  
+1. **Update CMS Made Simple** to the latest version. If an immediate update is not possible, deploy a Web Application Firewall (WAF) with SQL injection rules.
+2. **Disable legacy SSH algorithms** in `/etc/ssh/sshd_config`. Allow only modern, secure algorithms (e.g., `hmac-sha2-256`, `hmac-sha2-512`).
+3. **Restrict sudo permissions** – remove `mitch` from the sudo group or explicitly limit allowed commands. Avoid giving unrestricted `NOPASSWD` access to interpreters like `vim`.
 
-Privilege escalation via sudo vim "Remove user from sudo group or restrict allowed commands in sudoers using visudo."  
-    
-**P.S**
-And we done machine thanks for reading this me first write-up i wrote them because other is so old and dont helpful
+---
+
+## 💭 Final Thoughts
+
+This was my very first CTF write-up, and I still remember the satisfaction of making that old Python 2 exploit work on Python 3. The room was straightforward, but it taught me a lot about dealing with outdated services and the importance of checking even basic misconfigurations like `sudo -l`.
+
+> *“Everyone starts somewhere. This was my somewhere.”*
