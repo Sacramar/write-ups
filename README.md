@@ -1,7 +1,7 @@
 # My Write-up
 
 ## TryHackMe  
-1) [SimpleCTF](SimpleCTF%20Writeup.md)  
+1) [Simple CTF](Simple%20CTF.md)  
 2) [Pickle Rick](Pickle%20rick.md)  
 3) Smag Grotto       (In progress)   
 4) Basic Pentesting  (In progress)    
